@@ -9,6 +9,25 @@ namespace dnlib.DotNet.Emit {
 	/// A CIL instruction (opcode + operand)
 	/// </summary>
 	public sealed class Instruction {
+		bool Equals(Instruction other) => Equals(OpCode, other.OpCode) && Equals(Operand, other.Operand) && Offset == other.Offset;
+
+		public override bool Equals(object obj) => ReferenceEquals(this, obj) || obj is Instruction other && Equals(other);
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				var hashCode = (OpCode != null ? OpCode.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (Operand != null ? Operand.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (int) Offset;
+				return hashCode;
+			}
+		}
+
+		public static bool operator ==(Instruction left, Instruction right) => Equals(left, right);
+
+		public static bool operator !=(Instruction left, Instruction right) => !Equals(left, right);
+
 		/// <summary>
 		/// The opcode
 		/// </summary>
