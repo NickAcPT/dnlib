@@ -47,7 +47,8 @@ jobs:
           path: nuget_files
 
       - name: Upload to nuget.org
-        run: dotnet nuget push src\bin\Release\dnlib.*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+        run: dotnet nuget push nuget_files\*.nupkg --api-key ${{secrets.NUGET_APIKEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
   # Make sure it builds on Linux too
   build-ubuntu:
