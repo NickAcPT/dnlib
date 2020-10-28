@@ -347,7 +347,6 @@ namespace dnlib.DotNet.Pdb.Portable {
 		}
 
 		internal void GetCustomDebugInfos(SymbolMethodImpl symMethod, MethodDef method, CilBody body, IList<PdbCustomDebugInfo> result) {
-			Debug.Assert(method.Module == module);
 			GetCustomDebugInfos(method.MDToken.ToInt32(), GenericParamContext.Create(method), result, method, body, out var asyncStepInfo);
 			if (!(asyncStepInfo is null)) {
 				var asyncMethod = TryCreateAsyncMethod(module, symMethod.KickoffMethod, asyncStepInfo.AsyncStepInfos, asyncStepInfo.CatchHandler);
